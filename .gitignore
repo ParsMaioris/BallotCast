@@ -1,0 +1,45 @@
+# Ignore build outputs
+bin/
+obj/
+
+# Ignore user-specific files
+.vscode/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Ignore Rider project files
+.idea/
+
+# Ignore Rider workspace files
+*.sln.iml
+
+# Ignore temporary files
+*.swp
+*~
+
+# Ignore backup files
+*.bak
+
+# Ignore logs
+*.log
+
+# Ignore database file (referendum.db)
+referendum.db
+
+# Ignore generated files by the environment
+.env
+.env.*.local
+
+# Ignore IDE directories
+.vscode/
+.idea/
+
+# Ignore NuGet packages
+*.nupkg
+.nuget/
+packages/
+
+# Ignore Mac files
+.DS_Store
