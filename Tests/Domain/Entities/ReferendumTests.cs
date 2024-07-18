@@ -1,6 +1,5 @@
 using Xunit;
 
-
 namespace BallotCast.Domain;
 
 public class ReferendumTests
