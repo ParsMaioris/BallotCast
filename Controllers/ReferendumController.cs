@@ -1,31 +1,81 @@
 using Microsoft.AspNetCore.Mvc;
-using BallotCast.Data;
+using Microsoft.EntityFrameworkCore;
 
-namespace BallotCast.Controllers
+[ApiController]
+[Route("[controller]")]
+public class ReferendumController : ControllerBase
 {
-    [ApiController]
-    [Route("[controller]")]
-    public class ReferendumController : ControllerBase
+    private readonly ReferendumContext _context;
+    private readonly ILogger<ReferendumController> _logger;
+
+    public ReferendumController(ReferendumContext context, ILogger<ReferendumController> logger)
     {
-        private readonly ReferendumContext _context;
+        _context = context;
+        _logger = logger;
+    }
 
-        public ReferendumController(ReferendumContext context)
+    [HttpGet("eager")]
+    public IEnumerable<Referendum> GetWithEagerLoading()
+    {
+        _logger.LogInformation("Eager loading referendums with paragraphs and options.");
+        var referendums = _context.Referendums
+            .Include(r => r.Paragraphs)
+            .Include(r => r.Options)
+            .ToList();
+
+        foreach (var referendum in referendums)
         {
-            _context = context;
+            _logger.LogInformation("Referendum {Id}: ParagraphsLoaded = {ParagraphsLoaded}, OptionsLoaded = {OptionsLoaded}",
+                referendum.Id,
+                _context.IsCollectionLoaded(referendum, nameof(referendum.Paragraphs)),
+                _context.IsCollectionLoaded(referendum, nameof(referendum.Options)));
         }
 
-        [HttpGet]
-        public IEnumerable<Referendum> Get()
+        return referendums;
+    }
+
+    [HttpGet("lazy")]
+    public IActionResult GetWithLazyLoading()
+    {
+        _logger.LogInformation("Lazy loading referendums.");
+        var referendums = _context.Referendums.ToList();
+
+        foreach (var referendum in referendums)
         {
-            return _context.Referendums.ToList();
+            _logger.LogInformation("Referendum {Id}: ParagraphsLoaded = {ParagraphsLoaded}, OptionsLoaded = {OptionsLoaded}",
+                referendum.Id,
+                _context.IsCollectionLoaded(referendum, nameof(referendum.Paragraphs)),
+                _context.IsCollectionLoaded(referendum, nameof(referendum.Options)));
         }
 
-        [HttpPost]
-        public IActionResult Post([FromBody] Referendum referendum)
+        return Ok(referendums);
+    }
+
+    [HttpGet("explicit")]
+    public IEnumerable<Referendum> GetWithExplicitLoading()
+    {
+        _logger.LogInformation("Explicit loading referendums with paragraphs and options.");
+        var referendums = _context.Referendums.ToList();
+
+        foreach (var referendum in referendums)
         {
-            _context.Referendums.Add(referendum);
-            _context.SaveChanges();
-            return CreatedAtAction(nameof(Get), new { id = referendum.Id }, referendum);
+            _context.Entry(referendum).Collection(r => r.Paragraphs).Load();
+            _context.Entry(referendum).Collection(r => r.Options).Load();
+
+            _logger.LogInformation("Referendum {Id}: ParagraphsLoaded = {ParagraphsLoaded}, OptionsLoaded = {OptionsLoaded}",
+                referendum.Id,
+                _context.IsCollectionLoaded(referendum, nameof(referendum.Paragraphs)),
+                _context.IsCollectionLoaded(referendum, nameof(referendum.Options)));
         }
+
+        return referendums;
+    }
+
+    [HttpPost]
+    public IActionResult Post([FromBody] Referendum referendum)
+    {
+        _context.Referendums.Add(referendum);
+        _context.SaveChanges();
+        return CreatedAtAction(nameof(GetWithEagerLoading), new { id = referendum.Id }, referendum);
     }
 }

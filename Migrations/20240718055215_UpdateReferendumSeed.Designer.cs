@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -9,16 +10,14 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BallotCast.Migrations
 {
     [DbContext(typeof(ReferendumContext))]
-    partial class ReferendumContextModelSnapshot : ModelSnapshot
+    [Migration("20240718055215_UpdateReferendumSeed")]
+    partial class UpdateReferendumSeed
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.7")
-                .HasAnnotation("Proxies:ChangeTracking", false)
-                .HasAnnotation("Proxies:CheckEquality", false)
-                .HasAnnotation("Proxies:LazyLoading", true);
+            modelBuilder.HasAnnotation("ProductVersion", "8.0.7");
 
             modelBuilder.Entity("OptionResult", b =>
                 {
@@ -30,7 +29,7 @@ namespace BallotCast.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("ReferendumResultId")
+                    b.Property<int?>("ReferendumResultId")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("VoteCount")
@@ -176,7 +175,7 @@ namespace BallotCast.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedDate = new DateTime(2024, 7, 18, 6, 4, 59, 277, DateTimeKind.Utc).AddTicks(1870),
+                            CreatedDate = new DateTime(2024, 7, 18, 5, 52, 15, 298, DateTimeKind.Utc).AddTicks(2960),
                             Question = "Do you support the new environmental policy to reduce carbon emissions by 40% by 2030?",
                             ResultId = 1,
                             Status = 1,
@@ -185,7 +184,7 @@ namespace BallotCast.Migrations
                         new
                         {
                             Id = 2,
-                            CreatedDate = new DateTime(2024, 7, 18, 6, 4, 59, 277, DateTimeKind.Utc).AddTicks(1870),
+                            CreatedDate = new DateTime(2024, 7, 18, 5, 52, 15, 298, DateTimeKind.Utc).AddTicks(2960),
                             Question = "Do you support the new education reform to introduce coding classes in all high schools?",
                             ResultId = 2,
                             Status = 0,
@@ -194,7 +193,7 @@ namespace BallotCast.Migrations
                         new
                         {
                             Id = 3,
-                            CreatedDate = new DateTime(2024, 7, 18, 6, 4, 59, 277, DateTimeKind.Utc).AddTicks(1880),
+                            CreatedDate = new DateTime(2024, 7, 18, 5, 52, 15, 298, DateTimeKind.Utc).AddTicks(2960),
                             Question = "Do you support the proposed improvements to the healthcare system to provide free healthcare to all citizens?",
                             ResultId = 3,
                             Status = 1,
@@ -203,7 +202,7 @@ namespace BallotCast.Migrations
                         new
                         {
                             Id = 4,
-                            CreatedDate = new DateTime(2024, 7, 18, 6, 4, 59, 277, DateTimeKind.Utc).AddTicks(1880),
+                            CreatedDate = new DateTime(2024, 7, 18, 5, 52, 15, 298, DateTimeKind.Utc).AddTicks(2970),
                             Question = "Do you support the plan to develop new public transport infrastructure, including new bus and train routes?",
                             ResultId = 4,
                             Status = 0,
@@ -212,7 +211,7 @@ namespace BallotCast.Migrations
                         new
                         {
                             Id = 5,
-                            CreatedDate = new DateTime(2024, 7, 18, 6, 4, 59, 277, DateTimeKind.Utc).AddTicks(1880),
+                            CreatedDate = new DateTime(2024, 7, 18, 5, 52, 15, 298, DateTimeKind.Utc).AddTicks(2970),
                             Question = "Do you support the proposed tax reform to reduce income tax rates for middle-class families?",
                             ResultId = 5,
                             Status = 0,
@@ -221,7 +220,7 @@ namespace BallotCast.Migrations
                         new
                         {
                             Id = 6,
-                            CreatedDate = new DateTime(2024, 7, 18, 6, 4, 59, 277, DateTimeKind.Utc).AddTicks(1880),
+                            CreatedDate = new DateTime(2024, 7, 18, 5, 52, 15, 298, DateTimeKind.Utc).AddTicks(2970),
                             Question = "Do you support the initiative to increase investment in renewable energy sources such as solar and wind power?",
                             ResultId = 6,
                             Status = 1,
@@ -356,55 +355,49 @@ namespace BallotCast.Migrations
                         new
                         {
                             Id = 1,
-                            ResultDate = new DateTime(2024, 7, 18, 6, 4, 59, 277, DateTimeKind.Utc).AddTicks(1800)
+                            ResultDate = new DateTime(2024, 7, 18, 5, 52, 15, 298, DateTimeKind.Utc).AddTicks(2880)
                         },
                         new
                         {
                             Id = 2,
-                            ResultDate = new DateTime(2024, 7, 18, 6, 4, 59, 277, DateTimeKind.Utc).AddTicks(1810)
+                            ResultDate = new DateTime(2024, 7, 18, 5, 52, 15, 298, DateTimeKind.Utc).AddTicks(2880)
                         },
                         new
                         {
                             Id = 3,
-                            ResultDate = new DateTime(2024, 7, 18, 6, 4, 59, 277, DateTimeKind.Utc).AddTicks(1810)
+                            ResultDate = new DateTime(2024, 7, 18, 5, 52, 15, 298, DateTimeKind.Utc).AddTicks(2880)
                         },
                         new
                         {
                             Id = 4,
-                            ResultDate = new DateTime(2024, 7, 18, 6, 4, 59, 277, DateTimeKind.Utc).AddTicks(1810)
+                            ResultDate = new DateTime(2024, 7, 18, 5, 52, 15, 298, DateTimeKind.Utc).AddTicks(2880)
                         },
                         new
                         {
                             Id = 5,
-                            ResultDate = new DateTime(2024, 7, 18, 6, 4, 59, 277, DateTimeKind.Utc).AddTicks(1810)
+                            ResultDate = new DateTime(2024, 7, 18, 5, 52, 15, 298, DateTimeKind.Utc).AddTicks(2880)
                         },
                         new
                         {
                             Id = 6,
-                            ResultDate = new DateTime(2024, 7, 18, 6, 4, 59, 277, DateTimeKind.Utc).AddTicks(1810)
+                            ResultDate = new DateTime(2024, 7, 18, 5, 52, 15, 298, DateTimeKind.Utc).AddTicks(2890)
                         });
                 });
 
             modelBuilder.Entity("OptionResult", b =>
                 {
-                    b.HasOne("ReferendumResult", "ReferendumResult")
+                    b.HasOne("ReferendumResult", null)
                         .WithMany("OptionResults")
-                        .HasForeignKey("ReferendumResultId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("ReferendumResult");
+                        .HasForeignKey("ReferendumResultId");
                 });
 
             modelBuilder.Entity("Paragraph", b =>
                 {
-                    b.HasOne("Referendum", "Referendum")
+                    b.HasOne("Referendum", null)
                         .WithMany("Paragraphs")
                         .HasForeignKey("ReferendumId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Referendum");
                 });
 
             modelBuilder.Entity("Referendum", b =>
@@ -418,13 +411,11 @@ namespace BallotCast.Migrations
 
             modelBuilder.Entity("ReferendumOption", b =>
                 {
-                    b.HasOne("Referendum", "Referendum")
+                    b.HasOne("Referendum", null)
                         .WithMany("Options")
                         .HasForeignKey("ReferendumId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Referendum");
                 });
 
             modelBuilder.Entity("Referendum", b =>

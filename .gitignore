@@ -25,8 +25,10 @@ obj/
 # Ignore logs
 *.log
 
-# Ignore database file (referendum.db)
-referendum.db
+# Ignore SQLite database files
+Referendum.db
+Referendum.db-shm
+Referendum.db-wal
 
 # Ignore generated files by the environment
 .env

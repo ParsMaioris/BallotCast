@@ -1,13 +1,26 @@
-using BallotCast.Data;
 using Microsoft.OpenApi.Models;
+using System.Text.Json.Serialization;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-builder.Services.AddControllers();
-builder.Services.AddDbContext<ReferendumContext>();
+builder.Logging.ClearProviders();
+builder.Logging.AddConsole();
+builder.Logging.AddFilter("Microsoft.EntityFrameworkCore.Database.Command", LogLevel.Warning);
+builder.Logging.AddFilter("Microsoft.EntityFrameworkCore.Infrastructure", LogLevel.Warning);
 
-// Add Swagger services
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
+        options.JsonSerializerOptions.WriteIndented = true;
+    });
+
+builder.Services.AddDbContext<ReferendumContext>(options =>
+    options.UseSqlite("Data Source=referendum.db")
+           .UseLazyLoadingProxies()
+           .EnableSensitiveDataLogging());
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
