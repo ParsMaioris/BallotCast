@@ -1,67 +1,48 @@
-namespace BallotCast.Domain
+namespace BallotCast.Domain;
+
+public class Referendum
 {
-    public class Referendum
+    public int Id { get; private set; }
+    public string Title { get; private set; }
+    public string Question { get; private set; }
+    private readonly List<Paragraph> _paragraphs = new List<Paragraph>();
+    public IReadOnlyCollection<Paragraph> Paragraphs => _paragraphs.AsReadOnly();
+    private readonly List<VoterReferendum> _eligibleVoters = new List<VoterReferendum>();
+    public IReadOnlyCollection<VoterReferendum> EligibleVoters => _eligibleVoters.AsReadOnly();
+    private readonly List<Vote> _votes = new List<Vote>();
+    public IReadOnlyCollection<Vote> Votes => _votes.AsReadOnly();
+    public ReferendumStatus Status { get; private set; }
+    public ReferendumResult Result { get; private set; }
+
+    public Referendum(int id, string title, string question)
     {
-        private readonly List<Paragraph> _paragraphs = new List<Paragraph>();
-        private readonly List<ReferendumOption> _options = new List<ReferendumOption>();
+        Id = id;
+        Title = title ?? throw new ArgumentNullException(nameof(title));
+        Question = question ?? throw new ArgumentNullException(nameof(question));
+        Status = ReferendumStatus.Pending;
+    }
 
-        public int Id { get; private set; }
-        public string Title { get; private set; }
-        public string Question { get; private set; }
-        public DateTime CreatedDate { get; private set; }
-        public DateTime? LastModifiedDate { get; private set; }
-        public ReferendumStatus Status { get; private set; }
-        public IReadOnlyCollection<Paragraph> Paragraphs => _paragraphs.AsReadOnly();
-        public IReadOnlyCollection<ReferendumOption> Options => _options.AsReadOnly();
-        public ReferendumResult Result { get; private set; }
+    public void AddParagraph(Paragraph paragraph)
+    {
+        if (paragraph == null) throw new ArgumentNullException(nameof(paragraph));
+        _paragraphs.Add(paragraph);
+    }
 
-        public Referendum(string title, string question)
-        {
-            if (string.IsNullOrWhiteSpace(title)) throw new ArgumentException("Title is required", nameof(title));
-            if (string.IsNullOrWhiteSpace(question)) throw new ArgumentException("Question is required", nameof(question));
+    public void AddEligibleVoter(VoterReferendum voterReferendum)
+    {
+        if (voterReferendum == null) throw new ArgumentNullException(nameof(voterReferendum));
+        _eligibleVoters.Add(voterReferendum);
+    }
 
-            Title = title;
-            Question = question;
-            CreatedDate = DateTime.UtcNow;
-            Status = ReferendumStatus.Pending;
-        }
+    public void AddVote(Vote vote)
+    {
+        if (vote == null) throw new ArgumentNullException(nameof(vote));
+        _votes.Add(vote);
+    }
 
-        internal Referendum(int id, string title, string question, DateTime createdDate, DateTime? lastModifiedDate, ReferendumStatus status)
-        {
-            Id = id;
-            Title = title;
-            Question = question;
-            CreatedDate = createdDate;
-            LastModifiedDate = lastModifiedDate;
-            Status = status;
-        }
-
-        public void AddParagraph(string content)
-        {
-            if (string.IsNullOrWhiteSpace(content)) throw new ArgumentException("Content is required", nameof(content));
-            _paragraphs.Add(new Paragraph(content));
-        }
-
-        public void AddOption(string optionText)
-        {
-            if (string.IsNullOrWhiteSpace(optionText)) throw new ArgumentException("Option text is required", nameof(optionText));
-            _options.Add(new ReferendumOption(optionText));
-        }
-
-        public void SetStatus(ReferendumStatus status)
-        {
-            Status = status;
-            LastModifiedDate = DateTime.UtcNow;
-        }
-
-        public void SetResult(ReferendumResult result)
-        {
-            Result = result ?? throw new ArgumentNullException(nameof(result));
-        }
-
-        internal void SetId(int id)
-        {
-            Id = id;
-        }
+    public void SetResult(ReferendumResult result)
+    {
+        if (result == null) throw new ArgumentNullException(nameof(result));
+        Result = result;
     }
 }
